@@ -7,8 +7,8 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, exceptions, _
-from odoo.tools.float_utils import float_is_zero, float_round
 import odoo.addons.decimal_precision as dp
+from odoo.tools.float_utils import float_is_zero, float_round
 import calendar
 
 
@@ -24,6 +24,8 @@ class AccountPaymentTermLine(models.Model):
              "surcharge -0.01")
     months = fields.Integer(string='Number of Months')
     weeks = fields.Integer(string='Number of Weeks')
+    specific_day = fields.Integer(string='Specific Day')
+    option = fields.Selection(selection_add=[('specific_day', 'Specific Day')])
 
     @api.multi
     def compute_line_amount(
@@ -148,6 +150,9 @@ class AccountPaymentTerm(models.Model):
             elif line.option == 'last_day_current_month':
                 # Getting last day of next month
                 next_date += relativedelta(day=31, months=0)
+            elif line.option == 'specific_day':
+                # Getting specific day after delay
+                next_date += relativedelta(day=line.specific_day, months=0)
             next_date = self.apply_payment_days(line, next_date)
             if not float_is_zero(amt, precision_rounding=prec):
                 result.append((fields.Date.to_string(next_date), amt))

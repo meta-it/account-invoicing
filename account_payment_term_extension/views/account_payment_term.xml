@@ -23,10 +23,11 @@
             </div>
             <xpath expr="/form/group/group[2]"  position="replace">
                 <group string="Due Date Computation">
-                    <field name="days" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month'])]}"/>
-                    <field name="weeks" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month'])]}"/>
-                    <field name="months" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month'])]}"/>
+                    <field name="days" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month', 'specific_day'])]}"/>
+                    <field name="weeks" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month', 'specific_day'])]}"/>
+                    <field name="months" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month', 'specific_day'])]}"/>
                     <field name="payment_days" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month'])]}"/>
+                    <field name="specific_day" attrs="{'invisible': [('option', '!=', 'specific_day')]}"/>
                     <field name="option" widget="radio"/>
                 </group>
             </xpath>
